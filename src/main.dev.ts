@@ -44,6 +44,7 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let screenWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -176,13 +177,38 @@ ipcMain.handle(
   }
 );
 
-ipcMain.handle('open-selector', async (_event: IpcMainInvokeEvent) => {
-  const win = new BrowserWindow({
-    frame: false,
-    transparent: true,
+const createScreenWindow = () => {
+  if (screenWindow == null) {
+    screenWindow = new BrowserWindow({
+      frame: false,
+      transparent: true,
+      webPreferences: {
+        nodeIntegration: true,
+      },
+    });
+  }
+  screenWindow.loadURL(`file://${__dirname}/index.html?page=screen`);
+
+  screenWindow.webContents.on('did-finish-load', () => {
+    screenWindow?.show();
+    screenWindow?.maximize();
   });
-  win.show();
-  win.maximize();
+
+  screenWindow.webContents.on('before-input-event', (event, ipnut) => {
+    if (ipnut.key === 'Escape') {
+      screenWindow?.close();
+    }
+  });
+
+  screenWindow.on('closed', () => {
+    screenWindow = null;
+  });
+
+  screenWindow.webContents.openDevTools({ mode: 'undocked' });
+};
+
+ipcMain.handle('open-screen', async () => {
+  createScreenWindow();
 });
 
 ipcMain.handle('get-store', (_event, { key }) => {

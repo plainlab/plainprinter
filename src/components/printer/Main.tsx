@@ -1,9 +1,9 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
 
-const Printer = () => {
+const Main = () => {
   const handleScreenSelect = async () => {
-    await ipcRenderer.invoke('open-selector');
+    await ipcRenderer.invoke('open-screen');
   };
 
   return (
@@ -15,4 +15,4 @@ const Printer = () => {
   );
 };
 
-export default Printer;
+export default Main;
