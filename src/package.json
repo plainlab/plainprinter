@@ -1,0 +1,21 @@
+{
+  "name": "plainprinter",
+  "productName": "PlainPrinter",
+  "version": "0.0.7",
+  "description": "Plain screen printer",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "PlainLab",
+    "email": "plainlab@pm.me",
+    "url": "https://github.com/plainlab"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ../.erb/scripts/BabelRegister.js ../.erb/scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "GPL-3.0-only",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}

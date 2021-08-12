@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply rounded-md bg-gray-50 px-2 py-0.5 outline-none text-xs border shadow-sm active:bg-blue-500 active:text-white disabled:opacity-50;
+  }
+
+  .btn-link {
+    @apply outline-none hover:opacity-80 active:text-gray-300 active:outline-none focus:outline-none;
+  }
+
+  input[type='text'] {
+    @apply rounded focus:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-inset;
+  }
+
+  input[type='radio'] {
+    @apply focus:outline-none;
+  }
+
+  textarea {
+    @apply rounded focus:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-inset;
+  }
+}
