@@ -1586,11 +1586,6 @@
   resolved "https://registry.npmjs.org/@types/debug/-/debug-4.1.5.tgz"
   integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
 
-"@types/diff@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/@types/diff/-/diff-5.0.1.tgz"
-  integrity sha512-XIpxU6Qdvp1ZE6Kr3yrkv1qgUab0fyf4mHYvW8N3Bx3PCsbN6or1q9/q72cv5jIFWolaGH08U9XyYoLLIykyKQ==
-
 "@types/enzyme-adapter-react-16@^1.0.6":
   version "1.0.6"
   resolved "https://registry.npmjs.org/@types/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.0.6.tgz"

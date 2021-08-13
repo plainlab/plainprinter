@@ -181,7 +181,7 @@ const createScreenWindow = () => {
   if (screenWindow == null) {
     screenWindow = new BrowserWindow({
       frame: false,
-      // transparent: true,
+      transparent: true,
       webPreferences: {
         nodeIntegration: true,
       },
