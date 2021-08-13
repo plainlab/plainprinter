@@ -16,7 +16,11 @@ export default function App() {
           render={(props) => {
             const { search } = props.location;
             const so = qs.parse(search.slice(search.lastIndexOf('?') + 1));
-            return so.page === 'screen' ? <Screen /> : <Main />;
+            return so.page === 'screen' ? (
+              <Screen select={so.select?.toString() || 'frame'} />
+            ) : (
+              <Main />
+            );
           }}
         />
       </Switch>
