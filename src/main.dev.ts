@@ -177,21 +177,25 @@ ipcMain.handle(
   }
 );
 
-const createScreenWindow = () => {
+const createScreenWindow = (select: string) => {
   if (screenWindow == null) {
     screenWindow = new BrowserWindow({
       frame: false,
       transparent: true,
       webPreferences: {
         nodeIntegration: true,
+        contextIsolation: false,
       },
+      parent: mainWindow || undefined,
     });
   }
-  screenWindow.loadURL(`file://${__dirname}/index.html?page=screen`);
+  screenWindow.loadURL(
+    `file://${__dirname}/index.html?page=screen&select=${select}`
+  );
 
   screenWindow.webContents.on('did-finish-load', () => {
-    screenWindow?.show();
     screenWindow?.maximize();
+    screenWindow?.show();
   });
 
   screenWindow.webContents.on('before-input-event', (event, ipnut) => {
@@ -207,12 +211,17 @@ const createScreenWindow = () => {
   screenWindow.webContents.openDevTools({ mode: 'undocked' });
 };
 
-ipcMain.handle('open-screen', async () => {
-  createScreenWindow();
+ipcMain.handle('open-screen', async (_, { select }) => {
+  createScreenWindow(select);
 });
 
 ipcMain.handle('get-store', (_event, { key }) => {
   return store.get(key);
+});
+
+ipcMain.handle('close-screen', (_, coord) => {
+  mainWindow?.webContents.send('close-screen', coord);
+  screenWindow?.close();
 });
 
 /**
