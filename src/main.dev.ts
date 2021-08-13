@@ -71,6 +71,8 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+let stopPrinting = false;
+
 const createWindow = async () => {
   if (
     process.env.NODE_ENV === 'development' ||
@@ -89,8 +91,8 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: 512,
+    height: 364,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -110,6 +112,12 @@ const createWindow = async () => {
     } else {
       mainWindow.show();
       mainWindow.focus();
+    }
+  });
+
+  mainWindow.webContents.on('before-input-event', (event, ipnut) => {
+    if (ipnut.key === 'Escape') {
+      stopPrinting = true;
     }
   });
 
@@ -222,6 +230,10 @@ ipcMain.handle('get-store', (_event, { key }) => {
 ipcMain.handle('close-screen', (_, coord) => {
   mainWindow?.webContents.send('close-screen', coord);
   screenWindow?.close();
+});
+
+ipcMain.handle('start-printing', (_, { frameCoord, nextCoord, pages }) => {
+  console.log('Print with params', frameCoord, nextCoord, pages);
 });
 
 /**

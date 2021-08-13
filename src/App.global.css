@@ -11,8 +11,8 @@
     @apply outline-none hover:opacity-80 active:text-gray-300 active:outline-none focus:outline-none;
   }
 
-  input[type='text'] {
-    @apply rounded focus:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-inset;
+  input[type='number'] {
+    @apply px-1 py-0.5 rounded focus:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-inset;
   }
 
   input[type='radio'] {
