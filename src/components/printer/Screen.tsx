@@ -81,9 +81,12 @@ const Screen = ({ select }: { select: string }) => {
   };
 
   useEffect(() => {
-    window.onblur = closeScreen;
     window.onresize = setCanvasSize;
   }, []);
+
+  ipcRenderer.on('screen-show', () => {
+    setCanvasSize();
+  });
 
   return (
     <div

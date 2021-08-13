@@ -17,6 +17,7 @@ import {
   dialog,
   globalShortcut,
   ipcMain,
+  screen,
   shell,
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
@@ -115,7 +116,7 @@ const createWindow = async () => {
     }
   });
 
-  mainWindow.webContents.on('before-input-event', (event, ipnut) => {
+  mainWindow.webContents.on('before-input-event', (_event, ipnut) => {
     if (ipnut.key === 'Escape') {
       stopPrinting = true;
     }
@@ -190,11 +191,13 @@ const createScreenWindow = (select: string) => {
     screenWindow = new BrowserWindow({
       frame: false,
       transparent: true,
+      parent: mainWindow || undefined,
+      width: screen.getPrimaryDisplay().size.width,
+      height: screen.getPrimaryDisplay().size.height,
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
       },
-      parent: mainWindow || undefined,
     });
   }
   screenWindow.loadURL(
@@ -202,11 +205,11 @@ const createScreenWindow = (select: string) => {
   );
 
   screenWindow.webContents.on('did-finish-load', () => {
-    screenWindow?.maximize();
     screenWindow?.show();
+    screenWindow?.webContents.send('screen-show');
   });
 
-  screenWindow.webContents.on('before-input-event', (event, ipnut) => {
+  screenWindow.webContents.on('before-input-event', (_event, ipnut) => {
     if (ipnut.key === 'Escape') {
       screenWindow?.close();
     }
@@ -234,6 +237,10 @@ ipcMain.handle('close-screen', (_, coord) => {
 
 ipcMain.handle('start-printing', (_, { frameCoord, nextCoord, pages }) => {
   console.log('Print with params', frameCoord, nextCoord, pages);
+
+  if (stopPrinting) {
+    console.log('Stop now');
+  }
 });
 
 /**
