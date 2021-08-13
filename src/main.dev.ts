@@ -25,7 +25,12 @@ import log from 'electron-log';
 import { FileFilter, IpcMainInvokeEvent } from 'electron/main';
 import fs from 'fs';
 import { promisify } from 'util';
+import nodeurl from 'url';
+
 import MenuBuilder from './menu';
+
+const screenshot = require('screenshot-desktop');
+const PDFDocument = require('pdfkit');
 
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
@@ -218,8 +223,19 @@ const createScreenWindow = (select: string) => {
   screenWindow.on('closed', () => {
     screenWindow = null;
   });
+};
 
-  screenWindow.webContents.openDevTools({ mode: 'undocked' });
+const openPdf = (pdfPath: string) => {
+  const win = new BrowserWindow({
+    title: 'Preview',
+    width: 512,
+    height: 768,
+    webPreferences: {
+      plugins: true,
+      contextIsolation: false,
+    },
+  });
+  win.loadURL(nodeurl.pathToFileURL(pdfPath).toString());
 };
 
 ipcMain.handle('open-screen', async (_, { select }) => {
@@ -237,6 +253,23 @@ ipcMain.handle('close-screen', (_, coord) => {
 
 ipcMain.handle('start-printing', (_, { frameCoord, nextCoord, pages }) => {
   console.log('Print with params', frameCoord, nextCoord, pages);
+
+  const doc = new PDFDocument();
+  const pdfPath = path.join(app.getPath('temp'), 'preview.pdf');
+  const jpgPath = path.join(app.getPath('temp'), 'preview.jpg');
+
+  doc.pipe(fs.createWriteStream(pdfPath));
+
+  screenshot({ filename: jpgPath })
+    .then((filename: string) => {
+      doc.image(filename);
+      doc.save();
+      return doc.end();
+    })
+    .then(() => {
+      return openPdf(pdfPath);
+    })
+    .catch(console.error);
 
   if (stopPrinting) {
     console.log('Stop now');
