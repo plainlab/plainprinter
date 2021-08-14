@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint global-require: off, no-console: off */
 
 /**
@@ -17,6 +18,7 @@ import {
   dialog,
   globalShortcut,
   ipcMain,
+  nativeImage,
   screen,
   shell,
 } from 'electron';
@@ -25,7 +27,13 @@ import log from 'electron-log';
 import { FileFilter, IpcMainInvokeEvent } from 'electron/main';
 import fs from 'fs';
 import { promisify } from 'util';
+import nodeurl from 'url';
+
 import MenuBuilder from './menu';
+
+const screenshot = require('screenshot-desktop');
+const PDFDocument = require('pdfkit');
+const robot = require('robotjs');
 
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
@@ -95,6 +103,7 @@ const createWindow = async () => {
     width: 512,
     height: 364,
     icon: getAssetPath('icon.png'),
+    maximizable: false,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -191,6 +200,8 @@ const createScreenWindow = (select: string) => {
     screenWindow = new BrowserWindow({
       frame: false,
       transparent: true,
+      minimizable: false,
+      maximizable: false,
       parent: mainWindow || undefined,
       width: screen.getPrimaryDisplay().size.width,
       height: screen.getPrimaryDisplay().size.height,
@@ -209,17 +220,22 @@ const createScreenWindow = (select: string) => {
     screenWindow?.webContents.send('screen-show');
   });
 
-  screenWindow.webContents.on('before-input-event', (_event, ipnut) => {
-    if (ipnut.key === 'Escape') {
-      screenWindow?.close();
-    }
-  });
-
   screenWindow.on('closed', () => {
     screenWindow = null;
   });
+};
 
-  screenWindow.webContents.openDevTools({ mode: 'undocked' });
+const openPdf = (pdfPath: string) => {
+  const win = new BrowserWindow({
+    title: 'Preview',
+    width: 512,
+    height: 768,
+    webPreferences: {
+      plugins: true,
+      contextIsolation: false,
+    },
+  });
+  win.loadURL(nodeurl.pathToFileURL(pdfPath).toString());
 };
 
 ipcMain.handle('open-screen', async (_, { select }) => {
@@ -235,13 +251,91 @@ ipcMain.handle('close-screen', (_, coord) => {
   screenWindow?.close();
 });
 
-ipcMain.handle('start-printing', (_, { frameCoord, nextCoord, pages }) => {
-  console.log('Print with params', frameCoord, nextCoord, pages);
+interface Coord {
+  select: string;
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+}
 
-  if (stopPrinting) {
-    console.log('Stop now');
-  }
+interface Screenshot {
+  frameCoord: Coord;
+  nextCoord: Coord;
+  pages: number;
+  delay: number;
+}
+
+ipcMain.handle('stop-printing', () => {
+  stopPrinting = true;
 });
+
+ipcMain.handle(
+  'start-printing',
+  async (_, { frameCoord, nextCoord, pages, delay }: Screenshot) => {
+    // Calculate x, y
+    let x = frameCoord.x0 > frameCoord.x1 ? frameCoord.x1 : frameCoord.x0;
+    let y = frameCoord.x0 > frameCoord.x1 ? frameCoord.y1 : frameCoord.y0;
+    let width = Math.abs(frameCoord.x0 - frameCoord.x1);
+    let height = Math.abs(frameCoord.y0 - frameCoord.y1);
+
+    // For retina screen and the like
+    const factor = screen.getPrimaryDisplay().scaleFactor;
+    x *= factor;
+    y *= factor;
+    width *= factor;
+    height *= factor;
+
+    const doc = new PDFDocument({ autoFirstPage: false });
+    const pdfPath = path.join(app.getPath('temp'), 'preview.pdf');
+    doc.pipe(fs.createWriteStream(pdfPath));
+
+    try {
+      for (let p = 0; p < pages; p += 1) {
+        // Screenshot
+        const buff: Buffer = await screenshot({ format: 'png' });
+        const image = nativeImage.createFromBuffer(buff);
+        const png = image.crop({ x, y, height, width }).toPNG();
+
+        // Create pdf
+        doc.addPage({ size: [width, height] });
+        doc.image(png, 0, 0);
+        doc.save();
+
+        // Click
+        if (nextCoord) {
+          const nextX = (nextCoord.x0 + nextCoord.x1) / 2;
+          const nextY = (nextCoord.y0 + nextCoord.y1) / 2;
+          robot.moveMouse(nextX, nextY);
+          robot.mouseClick();
+        }
+
+        // Send progress
+        mainWindow?.webContents.send('print-progress', {
+          page: p + 1,
+          done: p + 1 === pages,
+        });
+
+        // Sleep
+        await new Promise((resolve) => setTimeout(resolve, 1000 * delay));
+
+        if (stopPrinting) {
+          stopPrinting = false;
+          mainWindow?.webContents.send('print-progress', {
+            page: p + 1,
+            done: true,
+          });
+          break;
+        }
+      }
+
+      doc.end();
+      openPdf(pdfPath);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+);
 
 /**
  * Add event listeners...
