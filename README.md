@@ -5,9 +5,19 @@
 
 > Plain screen printer
 
+![Demo](.erb/assets/demo.png)
+
 ## Features
 
-## Demo
+- Choose area to screenshot
+- Convert screenshots to PDF
+- Auto click next button
+
+## Release
+
+For MacOS: https://github.com/plainlab/plainprinter/releases
+
+I don't have a Windows device so you have to build it yourself.
 
 ---
 
