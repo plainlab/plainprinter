@@ -272,21 +272,22 @@ ipcMain.handle(
   async (_, { frameCoord, nextCoord, pages }: Screenshot) => {
     console.log('Print with params', frameCoord, nextCoord, pages);
 
-    const doc = new PDFDocument();
-    const pdfPath = path.join(app.getPath('temp'), 'preview.pdf');
-
-    doc.pipe(fs.createWriteStream(pdfPath));
-
     const x = frameCoord.x0 > frameCoord.x1 ? frameCoord.x1 : frameCoord.x0;
     const y = frameCoord.x0 > frameCoord.x1 ? frameCoord.y1 : frameCoord.y0;
     const width = Math.abs(frameCoord.x0 - frameCoord.x1);
     const height = Math.abs(frameCoord.y0 - frameCoord.y1);
 
+    const doc = new PDFDocument({ autoFirstPage: false });
+    const pdfPath = path.join(app.getPath('temp'), 'preview.pdf');
+    doc.pipe(fs.createWriteStream(pdfPath));
+
     try {
       const buff: Buffer = await screenshot({ format: 'png' });
       const image = nativeImage.createFromBuffer(buff);
       const png = image.crop({ x, y, height, width }).toPNG();
-      doc.image(png, 0, 0, { width, height });
+
+      doc.addPage({ size: [width, height] });
+      doc.image(png, 0, 0);
       doc.save();
       doc.end();
       openPdf(pdfPath);
