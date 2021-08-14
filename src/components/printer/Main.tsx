@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ipcRenderer } from 'electron';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Coord {
   select: string;
@@ -46,7 +47,7 @@ const Main = () => {
       ipcRenderer.invoke('start-printing', {
         frameCoord,
         nextCoord,
-        pages,
+        pages: nextCoord ? pages : 1,
         delay,
       });
     }
@@ -68,7 +69,7 @@ const Main = () => {
 
   return (
     <section className="absolute inset-0 flex flex-col items-stretch justify-center p-8 space-y-8 bg-gray-100">
-      <section className="flex flex-col items-stretch justify-end flex-1 px-4 py-6 space-y-8 border rounded">
+      <section className="flex flex-col items-stretch justify-center flex-1 px-4 py-4 space-y-6 border rounded">
         <section className="flex items-center justify-start space-x-4">
           <button
             type="button"
@@ -78,10 +79,17 @@ const Main = () => {
             Select printing area...
           </button>
           {frameCoord ? (
-            <p className="opacity-70">
-              Rectangle: ({frameCoord.x0}, {frameCoord.y0}) ({frameCoord.x1},{' '}
-              {frameCoord.y1})
-            </p>
+            <span className="flex items-center justify-center space-x-2 opacity-70">
+              <p>
+                Rectangle: ({frameCoord.x0}, {frameCoord.y0}) ({frameCoord.x1},{' '}
+                {frameCoord.y1})
+              </p>
+              <FontAwesomeIcon
+                onClick={() => setFrameCoord(undefined)}
+                icon="times-circle"
+                className="w-3 h-3 cursor-pointer hover:opacity-50"
+              />
+            </span>
           ) : (
             <p />
           )}
@@ -97,10 +105,17 @@ const Main = () => {
               Select next button...
             </button>
             {nextCoord ? (
-              <p className="opacity-70">
-                Point: ({(nextCoord.x0 + nextCoord.x1) / 2},{' '}
-                {(nextCoord.y0 + nextCoord.y1) / 2})
-              </p>
+              <span className="flex items-center justify-center space-x-2 opacity-70">
+                <p>
+                  Point: ({(nextCoord.x0 + nextCoord.x1) / 2},{' '}
+                  {(nextCoord.y0 + nextCoord.y1) / 2})
+                </p>
+                <FontAwesomeIcon
+                  onClick={() => setNextCoord(undefined)}
+                  icon="times-circle"
+                  className="w-3 h-3 cursor-pointer hover:opacity-50"
+                />
+              </span>
             ) : (
               <p />
             )}
@@ -149,7 +164,7 @@ const Main = () => {
           type="button"
           onClick={handlePrint}
           className="w-full py-1 text-base btn"
-          disabled={!frameCoord || !pages}
+          disabled={!frameCoord || (nextCoord && !pages)}
         >
           {printing ? 'Stop printing' : 'Start printing'}
         </button>
