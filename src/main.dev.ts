@@ -272,10 +272,19 @@ ipcMain.handle(
   async (_, { frameCoord, nextCoord, pages }: Screenshot) => {
     console.log('Print with params', frameCoord, nextCoord, pages);
 
-    const x = frameCoord.x0 > frameCoord.x1 ? frameCoord.x1 : frameCoord.x0;
-    const y = frameCoord.x0 > frameCoord.x1 ? frameCoord.y1 : frameCoord.y0;
-    const width = Math.abs(frameCoord.x0 - frameCoord.x1);
-    const height = Math.abs(frameCoord.y0 - frameCoord.y1);
+    const factor = screen.getPrimaryDisplay().scaleFactor;
+
+    // Calculate x, y
+    let x = frameCoord.x0 > frameCoord.x1 ? frameCoord.x1 : frameCoord.x0;
+    let y = frameCoord.x0 > frameCoord.x1 ? frameCoord.y1 : frameCoord.y0;
+    let width = Math.abs(frameCoord.x0 - frameCoord.x1);
+    let height = Math.abs(frameCoord.y0 - frameCoord.y1);
+
+    // For retina screen and the like
+    x *= factor;
+    y *= factor;
+    width *= factor;
+    height *= factor;
 
     const doc = new PDFDocument({ autoFirstPage: false });
     const pdfPath = path.join(app.getPath('temp'), 'preview.pdf');
