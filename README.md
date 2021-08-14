@@ -5,6 +5,8 @@
 
 > Plain screen printer
 
+![Demo](.erb/assets/demo.png)
+
 ## Features
 
 - Choose area to screenshot
