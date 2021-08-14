@@ -17,6 +17,7 @@ import {
   dialog,
   globalShortcut,
   ipcMain,
+  nativeImage,
   screen,
   shell,
 } from 'electron';
@@ -31,6 +32,7 @@ import MenuBuilder from './menu';
 
 const screenshot = require('screenshot-desktop');
 const PDFDocument = require('pdfkit');
+const robot = require('robotjs');
 
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
@@ -251,30 +253,52 @@ ipcMain.handle('close-screen', (_, coord) => {
   screenWindow?.close();
 });
 
-ipcMain.handle('start-printing', (_, { frameCoord, nextCoord, pages }) => {
-  console.log('Print with params', frameCoord, nextCoord, pages);
+interface Coord {
+  select: string;
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+}
 
-  const doc = new PDFDocument();
-  const pdfPath = path.join(app.getPath('temp'), 'preview.pdf');
-  const jpgPath = path.join(app.getPath('temp'), 'preview.jpg');
+interface Screenshot {
+  frameCoord: Coord;
+  nextCoord: Coord;
+  pages: number;
+}
 
-  doc.pipe(fs.createWriteStream(pdfPath));
+ipcMain.handle(
+  'start-printing',
+  async (_, { frameCoord, nextCoord, pages }: Screenshot) => {
+    console.log('Print with params', frameCoord, nextCoord, pages);
 
-  screenshot({ filename: jpgPath })
-    .then((filename: string) => {
-      doc.image(filename);
+    const doc = new PDFDocument();
+    const pdfPath = path.join(app.getPath('temp'), 'preview.pdf');
+
+    doc.pipe(fs.createWriteStream(pdfPath));
+
+    const x = frameCoord.x0 > frameCoord.x1 ? frameCoord.x1 : frameCoord.x0;
+    const y = frameCoord.x0 > frameCoord.x1 ? frameCoord.y1 : frameCoord.y0;
+    const width = Math.abs(frameCoord.x0 - frameCoord.x1);
+    const height = Math.abs(frameCoord.y0 - frameCoord.y1);
+
+    try {
+      const buff: Buffer = await screenshot({ format: 'png' });
+      const image = nativeImage.createFromBuffer(buff);
+      const png = image.crop({ x, y, height, width }).toPNG();
+      doc.image(png, 0, 0, { width, height });
       doc.save();
-      return doc.end();
-    })
-    .then(() => {
-      return openPdf(pdfPath);
-    })
-    .catch(console.error);
+      doc.end();
+      openPdf(pdfPath);
+    } catch (e) {
+      console.error(e);
+    }
 
-  if (stopPrinting) {
-    console.log('Stop now');
+    if (stopPrinting) {
+      console.log('Stop now');
+    }
   }
-});
+);
 
 /**
  * Add event listeners...
