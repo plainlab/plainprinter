@@ -3,21 +3,20 @@
 
 # PlainPrinter
 
-> Plain screen printer
+> Take multiple screenshots and convert them into a PDF file
 
 ![Demo](.erb/assets/demo.png)
 
 ## Features
 
-- Choose area to screenshot
-- Convert screenshots to PDF
-- Auto click next button
+- Choose an area to take screenshots
+- Convert screenshots into a PDF
+- Auto click on the Next button
 
-## Release
+## Download
 
-For MacOS: https://github.com/plainlab/plainprinter/releases
-
-I don't have a Windows device so you have to build it yourself.
+- For macOS: https://github.com/plainlab/plainprinter/releases
+- For Windows: I don't have a Windows device so you have to build it yourself.
 
 ---
 
