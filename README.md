@@ -15,8 +15,7 @@
 
 ## Download
 
-- For macOS: https://github.com/plainlab/plainprinter/releases
-- For Windows: I don't have a Windows device so you have to build it yourself.
+- For macOS & Windows: https://github.com/plainlab/plainprinter/releases
 
 ---
 
