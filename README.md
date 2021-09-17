@@ -17,6 +17,10 @@
 
 - For macOS & Windows: https://github.com/plainlab/plainprinter/releases
 
+## CLI version
+
+https://github.com/manhtai/vitalsource-printer
+
 ---
 
 &copy; 2021 PlainLab
