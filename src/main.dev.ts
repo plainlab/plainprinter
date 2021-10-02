@@ -332,6 +332,7 @@ ipcMain.handle(
       doc.end();
       openPdf(pdfPath);
     } catch (e) {
+      dialog.showErrorBox(e.message, e.stack);
       console.error(e);
     }
   }
