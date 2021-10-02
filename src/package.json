@@ -1,7 +1,7 @@
 {
   "name": "plainprinter",
   "productName": "PlainPrinter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Plain screen printer",
   "main": "./main.prod.js",
   "author": {
@@ -16,6 +16,7 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "pdfkit": "^0.12.3",
+    "screenshot-desktop": "^1.12.7",
     "robotjs": "^0.6.0"
   },
   "devDependencies": {}

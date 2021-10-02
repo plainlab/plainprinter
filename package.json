@@ -8,7 +8,7 @@
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./.erb/configs/webpack.config.renderer.prod.babel.js",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
     "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
-    "package": "rm -rf src/dist && yarn build && electron-builder build --publish never --x64 --arm64",
+    "package": "rm -rf src/dist && yarn build && electron-builder build --publish never",
     "release": "rm -rf src/dist && yarn build && electron-builder build --publish always",
     "postinstall": "node -r @babel/register .erb/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.babel.js && opencollective-postinstall && yarn-deduplicate yarn.lock",
     "start": "node -r @babel/register ./.erb/scripts/CheckPortInUse.js && yarn start:renderer",
@@ -69,6 +69,10 @@
     "win": {
       "target": [
         "nsis"
+      ],
+      "extraResources": [
+        "node_modules/screenshot-desktop/lib/win32/screenCapture_1.3.2.bat",
+        "node_modules/screenshot-desktop/lib/win32/app.manifest"
       ]
     },
     "linux": {
@@ -261,7 +265,6 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.2.0",
     "regenerator-runtime": "^0.13.5",
-    "screenshot-desktop": "^1.12.7",
     "source-map-support": "^0.5.19"
   },
   "devEngines": {
