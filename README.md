@@ -24,6 +24,10 @@ For macOS & Windows: https://github.com/plainlab/plainprinter/releases
 
 https://github.com/manhtai/vitalsource-printer
 
+## Got a dollar or two?
+
+Buy it: https://gum.co/plainprinter
+
 ---
 
 &copy; 2021 PlainLab
