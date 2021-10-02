@@ -20,6 +20,10 @@ For macOS & Windows: https://github.com/plainlab/plainprinter/releases
 - macOS: Get `.dmg` file, open it and drag the app into Applications folder, for M1 mac: get `arm64.dmg` file instead.
 - Windows: Get `.exe` file and open it to install.
 
+## CLI version
+
+https://github.com/manhtai/vitalsource-printer
+
 ---
 
 &copy; 2021 PlainLab
