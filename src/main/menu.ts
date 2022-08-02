@@ -54,17 +54,15 @@ export default class MenuBuilder {
 
   buildDarwinTemplate(): MenuItemConstructorOptions[] {
     const subMenuAbout: DarwinMenuItemConstructorOptions = {
-      label: 'Electron',
+      label: 'PlainPrinter',
       submenu: [
         {
-          label: 'About ElectronReact',
+          label: 'About PlainPrinter',
           selector: 'orderFrontStandardAboutPanel:',
         },
         { type: 'separator' },
-        { label: 'Services', submenu: [] },
-        { type: 'separator' },
         {
-          label: 'Hide ElectronReact',
+          label: 'Hide PlainPrinter',
           accelerator: 'Command+H',
           selector: 'hide:',
         },
@@ -155,29 +153,15 @@ export default class MenuBuilder {
       label: 'Help',
       submenu: [
         {
-          label: 'Learn More',
+          label: 'PlainLab home page',
           click() {
-            shell.openExternal('https://electronjs.org');
+            shell.openExternal('https://plainlab.github.io');
           },
         },
         {
-          label: 'Documentation',
+          label: 'PlainPrinter repo',
           click() {
-            shell.openExternal(
-              'https://github.com/electron/electron/tree/main/docs#readme'
-            );
-          },
-        },
-        {
-          label: 'Community Discussions',
-          click() {
-            shell.openExternal('https://www.electronjs.org/community');
-          },
-        },
-        {
-          label: 'Search Issues',
-          click() {
-            shell.openExternal('https://github.com/electron/electron/issues');
+            shell.openExternal('https://github.com/plainlab/plainprinter');
           },
         },
       ],
@@ -256,29 +240,15 @@ export default class MenuBuilder {
         label: 'Help',
         submenu: [
           {
-            label: 'Learn More',
+            label: 'Home Page',
             click() {
-              shell.openExternal('https://electronjs.org');
+              shell.openExternal('https://plainlab.github.io');
             },
           },
           {
-            label: 'Documentation',
+            label: 'GitHub',
             click() {
-              shell.openExternal(
-                'https://github.com/electron/electron/tree/main/docs#readme'
-              );
-            },
-          },
-          {
-            label: 'Community Discussions',
-            click() {
-              shell.openExternal('https://www.electronjs.org/community');
-            },
-          },
-          {
-            label: 'Search Issues',
-            click() {
-              shell.openExternal('https://github.com/electron/electron/issues');
+              shell.openExternal('https://github.com/plainlab/plainprinter');
             },
           },
         ],

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { ipcRenderer } from 'electron';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Coord {
@@ -34,17 +33,17 @@ const Main = () => {
       setNextCoord(undefined);
     }
 
-    ipcRenderer.invoke('open-screen', { select });
+    window.electron.ipcRenderer.invoke('open-screen', { select });
   };
 
   const handlePrint = () => {
     if (printing) {
       setPrinting(false);
-      ipcRenderer.invoke('stop-printing');
+      window.electron.ipcRenderer.invoke('stop-printing');
     } else {
       setPrinting(true);
       setPageNum(0);
-      ipcRenderer.invoke('start-printing', {
+      window.electron.ipcRenderer.invoke('start-printing', {
         frameCoord,
         nextCoord,
         pages: nextCoord ? pages : 1,
@@ -53,11 +52,11 @@ const Main = () => {
     }
   };
 
-  ipcRenderer.on('close-screen', (_, c: Coord) => {
+  window.electron.ipcRenderer.on('close-screen', (_, c: Coord) => {
     handleCloseScreen(c);
   });
 
-  ipcRenderer.on(
+  window.electron.ipcRenderer.on(
     'print-progress',
     (_, { page, done }: { page: number; done: boolean }) => {
       setPageNum(page);

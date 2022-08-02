@@ -1,5 +1,4 @@
-import { ipcRenderer } from 'electron';
-import React, { MouseEvent, useRef, useState, useEffect } from 'react';
+import { MouseEvent, useRef, useState, useEffect } from 'react';
 
 const Screen = ({ select }: { select: string }) => {
   const parentRef = useRef<HTMLDivElement>(null);
@@ -17,7 +16,7 @@ const Screen = ({ select }: { select: string }) => {
   const [draging, setDraging] = useState(false);
 
   const closeScreen = () => {
-    ipcRenderer.invoke('close-screen', { ...mouse });
+    window.electron.ipcRenderer.invoke('close-screen', { ...mouse });
   };
 
   const setCanvasSize = () => {
@@ -84,7 +83,7 @@ const Screen = ({ select }: { select: string }) => {
     window.onresize = setCanvasSize;
   }, []);
 
-  ipcRenderer.on('screen-show', () => {
+  window.electron.ipcRenderer.on('screen-show', () => {
     setCanvasSize();
   });
 
