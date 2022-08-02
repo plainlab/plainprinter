@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/plainlab/plainprinter.git"
   },
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "author": {
     "name": "PlainLab",
     "email": "plain@manhtai.com",
