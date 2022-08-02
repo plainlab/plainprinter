@@ -5,7 +5,7 @@
 
 > Take multiple screenshots and convert them into a PDF file
 
-![Demo](.erb/assets/demo.png)
+![Demo](.erb/img/demo.png)
 
 ## Features
 
@@ -23,6 +23,10 @@ For macOS & Windows: https://github.com/plainlab/plainprinter/releases
 ## CLI version
 
 https://github.com/manhtai/vitalsource-printer
+
+## Buy me a coffee
+
+[PayPal](https://paypal.me/vomanhtai)
 
 ---
 

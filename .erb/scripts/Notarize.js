@@ -1,4 +1,3 @@
-exports.default = async function notarizeMacos(context) {
-  console.warn('Skipping notarizing step');
-  return;
+exports.default = async function notarizeMacos() {
+  console.warn('Skipping notarizing step.');
 };
