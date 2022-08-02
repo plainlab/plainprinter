@@ -7,17 +7,16 @@ contextBridge.exposeInMainWorld('electron', {
     sendMessage(channel: Channels, args: unknown[]) {
       ipcRenderer.send(channel, args);
     },
-    invoke(channel: Channels, ...args: any[]) {
-      return ipcRenderer.invoke(channel, args);
+    invoke(channel: Channels, ...args: unknown[]) {
+      return ipcRenderer.invoke(channel, ...args);
     },
-    on(channel: Channels, func: (...args: any) => void) {
-      const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
-        func(...args);
-      ipcRenderer.on(channel, subscription);
-
-      return () => ipcRenderer.removeListener(channel, subscription);
+    on(
+      channel: Channels,
+      func: (_event: IpcRendererEvent, ...args: unknown[]) => void
+    ) {
+      return ipcRenderer.on(channel, func);
     },
-    once(channel: Channels, func: (...args: any) => void) {
+    once(channel: Channels, func: (...args: unknown[]) => void) {
       ipcRenderer.once(channel, (_event, ...args) => func(...args));
     },
   },

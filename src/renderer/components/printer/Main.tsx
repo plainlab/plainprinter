@@ -53,6 +53,7 @@ const Main = () => {
   };
 
   window.electron?.ipcRenderer.on('close-screen', (_, c: Coord) => {
+    console.log('close', c);
     handleCloseScreen(c);
   });
 

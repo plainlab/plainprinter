@@ -191,7 +191,10 @@ const createScreenWindow = (select: string) => {
       height: screen.getPrimaryDisplay().size.height,
       webPreferences: {
         nodeIntegration: true,
-        contextIsolation: false,
+        contextIsolation: true,
+        preload: app.isPackaged
+          ? path.join(__dirname, 'preload.js')
+          : path.join(__dirname, '../../.erb/dll/preload.js'),
       },
     });
   }
@@ -230,7 +233,7 @@ ipcMain.handle('get-store', (_event, { key }) => {
   return store.get(key);
 });
 
-ipcMain.handle('close-screen', (_, coord) => {
+ipcMain.handle('close-screen', (_event, coord) => {
   mainWindow?.webContents.send('close-screen', coord);
   screenWindow?.close();
 });
