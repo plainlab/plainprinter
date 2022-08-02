@@ -7,7 +7,6 @@ import {
 import qs from 'qs';
 
 import './App.css';
-import './helpers/fontAwesome';
 import Main from './components/printer/Main';
 import Screen from './components/printer/Screen';
 

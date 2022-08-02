@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaTimesCircle } from 'react-icons/fa';
 
 interface Coord {
   select: string;
@@ -53,7 +53,6 @@ const Main = () => {
   };
 
   window.electron?.ipcRenderer.on('close-screen', (_, c: Coord) => {
-    console.log('close', c);
     handleCloseScreen(c);
   });
 
@@ -84,9 +83,8 @@ const Main = () => {
                 Rectangle: ({frameCoord.x0}, {frameCoord.y0}) ({frameCoord.x1},{' '}
                 {frameCoord.y1})
               </p>
-              <FontAwesomeIcon
+              <FaTimesCircle
                 onClick={() => setFrameCoord(undefined)}
-                icon="times-circle"
                 className="w-3 h-3 cursor-pointer hover:opacity-50"
               />
             </span>
@@ -110,9 +108,8 @@ const Main = () => {
                   Point: ({(nextCoord.x0 + nextCoord.x1) / 2},{' '}
                   {(nextCoord.y0 + nextCoord.y1) / 2})
                 </p>
-                <FontAwesomeIcon
+                <FaTimesCircle
                   onClick={() => setNextCoord(undefined)}
-                  icon="times-circle"
                   className="w-3 h-3 cursor-pointer hover:opacity-50"
                 />
               </span>

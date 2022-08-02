@@ -94,11 +94,6 @@
     }
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.35",
-    "@fortawesome/free-brands-svg-icons": "^5.15.3",
-    "@fortawesome/free-regular-svg-icons": "^5.15.3",
-    "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@fortawesome/react-fontawesome": "^0.1.14",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.7",
     "electron-store": "^8.1.0",
@@ -108,6 +103,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
