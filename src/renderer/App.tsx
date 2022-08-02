@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import qs from 'qs';
 
-import './App.global.css';
+import './App.css';
 import './helpers/fontAwesome';
 import Main from './components/printer/Main';
 import Screen from './components/printer/Screen';
