@@ -3,7 +3,7 @@
   "productName": "PlainPrinter",
   "version": "0.0.5",
   "description": "Plain screen printer",
-  "main": "./main.prod.js",
+  "main": "./dist/main/main.js",
   "author": {
     "name": "PlainLab",
     "email": "plain@manhtai.com",
