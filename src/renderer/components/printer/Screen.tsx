@@ -16,7 +16,7 @@ const Screen = ({ select }: { select: string }) => {
   const [draging, setDraging] = useState(false);
 
   const closeScreen = () => {
-    window.electron.ipcRenderer.invoke('close-screen', { ...mouse });
+    window.electron?.ipcRenderer.invoke('close-screen', { ...mouse });
   };
 
   const setCanvasSize = () => {
@@ -83,7 +83,7 @@ const Screen = ({ select }: { select: string }) => {
     window.onresize = setCanvasSize;
   }, []);
 
-  window.electron.ipcRenderer.on('screen-show', () => {
+  window.electron?.ipcRenderer.on('screen-show', () => {
     setCanvasSize();
   });
 

@@ -33,17 +33,17 @@ const Main = () => {
       setNextCoord(undefined);
     }
 
-    window.electron.ipcRenderer.invoke('open-screen', { select });
+    window.electron?.ipcRenderer.invoke('open-screen', { select });
   };
 
   const handlePrint = () => {
     if (printing) {
       setPrinting(false);
-      window.electron.ipcRenderer.invoke('stop-printing');
+      window.electron?.ipcRenderer.invoke('stop-printing');
     } else {
       setPrinting(true);
       setPageNum(0);
-      window.electron.ipcRenderer.invoke('start-printing', {
+      window.electron?.ipcRenderer.invoke('start-printing', {
         frameCoord,
         nextCoord,
         pages: nextCoord ? pages : 1,
@@ -52,11 +52,11 @@ const Main = () => {
     }
   };
 
-  window.electron.ipcRenderer.on('close-screen', (_, c: Coord) => {
+  window.electron?.ipcRenderer.on('close-screen', (_, c: Coord) => {
     handleCloseScreen(c);
   });
 
-  window.electron.ipcRenderer.on(
+  window.electron?.ipcRenderer.on(
     'print-progress',
     (_, { page, done }: { page: number; done: boolean }) => {
       setPageNum(page);

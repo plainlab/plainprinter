@@ -7,7 +7,7 @@ contextBridge.exposeInMainWorld('electron', {
     sendMessage(channel: Channels, args: unknown[]) {
       ipcRenderer.send(channel, args);
     },
-    invoke(channel: Channels, args?: any) {
+    invoke(channel: Channels, ...args: any[]) {
       return ipcRenderer.invoke(channel, args);
     },
     on(channel: Channels, func: (...args: any) => void) {
