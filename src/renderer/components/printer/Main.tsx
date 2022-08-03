@@ -18,6 +18,43 @@ const Main = () => {
   const [pageNum, setPageNum] = useState(0);
   const [printing, setPrinting] = useState(false);
 
+  const setFrameCoordValue = (label: string, value: number) => {
+    if (frameCoord) {
+      switch (label) {
+        case 'x0':
+          setFrameCoord({ ...frameCoord, x0: value });
+          break;
+        case 'x1':
+          setFrameCoord({ ...frameCoord, x1: value });
+          break;
+        case 'y0':
+          frameCoord.y0 = value;
+          setFrameCoord({ ...frameCoord, y0: value });
+          break;
+        case 'y1':
+          setFrameCoord({ ...frameCoord, y1: value });
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  const setNextCoordValue = (label: string, value: number) => {
+    if (nextCoord) {
+      switch (label) {
+        case 'x':
+          setNextCoord({ ...nextCoord, x0: value, x1: value });
+          break;
+        case 'y':
+          setNextCoord({ ...nextCoord, y0: value, y1: value });
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   const handleCloseScreen = (c: Coord) => {
     if (c.select === 'frame') {
       setFrameCoord({ ...c });
@@ -80,8 +117,39 @@ const Main = () => {
           {frameCoord ? (
             <span className="flex items-center justify-center space-x-2 opacity-70">
               <p>
-                Rectangle: ({frameCoord.x0}, {frameCoord.y0}) ({frameCoord.x1},{' '}
-                {frameCoord.y1})
+                Rectangle: [
+                <input
+                  className="w-16"
+                  value={frameCoord.x0}
+                  onChange={(e) =>
+                    setFrameCoordValue('x0', parseInt(e.target.value, 10))
+                  }
+                />
+                ,{' '}
+                <input
+                  className="w-16"
+                  value={frameCoord.y0}
+                  onChange={(e) =>
+                    setFrameCoordValue('y0', parseInt(e.target.value, 10))
+                  }
+                />
+                ] [
+                <input
+                  className="w-16"
+                  value={frameCoord.x1}
+                  onChange={(e) =>
+                    setFrameCoordValue('x1', parseInt(e.target.value, 10))
+                  }
+                />
+                ,{' '}
+                <input
+                  className="w-16"
+                  value={frameCoord.y1}
+                  onChange={(e) =>
+                    setFrameCoordValue('y1', parseInt(e.target.value, 10))
+                  }
+                />
+                ]
               </p>
               <FaTimesCircle
                 onClick={() => setFrameCoord(undefined)}
@@ -105,8 +173,23 @@ const Main = () => {
             {nextCoord ? (
               <span className="flex items-center justify-center space-x-2 opacity-70">
                 <p>
-                  Point: ({(nextCoord.x0 + nextCoord.x1) / 2},{' '}
-                  {(nextCoord.y0 + nextCoord.y1) / 2})
+                  Point: [
+                  <input
+                    className="w-16"
+                    value={(nextCoord.x0 + nextCoord.x1) / 2}
+                    onChange={(e) =>
+                      setNextCoordValue('x', parseInt(e.target.value, 10))
+                    }
+                  />
+                  ,{' '}
+                  <input
+                    className="w-16"
+                    value={(nextCoord.y0 + nextCoord.y1) / 2}
+                    onChange={(e) =>
+                      setNextCoordValue('y', parseInt(e.target.value, 10))
+                    }
+                  />
+                  ]
                 </p>
                 <FaTimesCircle
                   onClick={() => setNextCoord(undefined)}
