@@ -183,7 +183,10 @@
     "productName": "PlainPrinter",
     "appId": "com.plainprinter",
     "asar": true,
-    "asarUnpack": "**\\*.{node,dll}",
+    "asarUnpack": [
+      "node_modules/screenshot-desktop/lib/win32",
+      "**\\*.{node,dll}"
+    ],
     "files": [
       "dist",
       "node_modules",
