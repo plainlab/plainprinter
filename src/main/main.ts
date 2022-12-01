@@ -30,7 +30,7 @@ import { resolveHtmlPath } from './util';
 
 const screenshot = require('screenshot-desktop');
 const PDFDocument = require('pdfkit');
-const robot = require('robotjs');
+const robot = require('@jitsi/robotjs');
 const Store = require('electron-store');
 
 const writeFile = promisify(fs.writeFile);
