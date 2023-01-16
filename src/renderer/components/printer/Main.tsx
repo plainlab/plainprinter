@@ -114,51 +114,53 @@ const Main = () => {
           >
             Select printing area...
           </button>
-          {frameCoord ? (
-            <span className="flex items-center justify-center space-x-2 opacity-70">
-              <p>
-                Rectangle: [
-                <input
-                  className="w-16"
-                  value={frameCoord.x0}
-                  onChange={(e) =>
-                    setFrameCoordValue('x0', parseInt(e.target.value, 10))
-                  }
-                />
-                ,{' '}
-                <input
-                  className="w-16"
-                  value={frameCoord.y0}
-                  onChange={(e) =>
-                    setFrameCoordValue('y0', parseInt(e.target.value, 10))
-                  }
-                />
-                ] [
-                <input
-                  className="w-16"
-                  value={frameCoord.x1}
-                  onChange={(e) =>
-                    setFrameCoordValue('x1', parseInt(e.target.value, 10))
-                  }
-                />
-                ,{' '}
-                <input
-                  className="w-16"
-                  value={frameCoord.y1}
-                  onChange={(e) =>
-                    setFrameCoordValue('y1', parseInt(e.target.value, 10))
-                  }
-                />
-                ]
-              </p>
+          <span className="flex items-center justify-center space-x-2 opacity-70 leading-1">
+            <p className="flex justify-center items-center space-x-2">
+              Rectangle:
+              <span className="text-2xl">｛</span>
+              <input
+                className="w-16 px-1 disabled:bg-gray-50"
+                value={frameCoord?.x0 || 0}
+                onChange={(e) =>
+                  setFrameCoordValue('x0', parseInt(e.target.value, 10))
+                }
+                disabled={!frameCoord}
+              />
+              <input
+                className="w-16 px-1 disabled:bg-gray-50"
+                value={frameCoord?.y0 || 0}
+                onChange={(e) =>
+                  setFrameCoordValue('y0', parseInt(e.target.value, 10))
+                }
+                disabled={!frameCoord}
+              />
+              <span className="text-2xl">｝</span>
+              <span className="text-2xl">｛</span>
+              <input
+                className="w-16 px-1 disabled:bg-gray-50"
+                value={frameCoord?.x1 || 0}
+                onChange={(e) =>
+                  setFrameCoordValue('x1', parseInt(e.target.value, 10))
+                }
+                disabled={!frameCoord}
+              />
+              <input
+                className="w-16 px-1 disabled:bg-gray-50"
+                value={frameCoord?.y1 || 0}
+                onChange={(e) =>
+                  setFrameCoordValue('y1', parseInt(e.target.value, 10))
+                }
+                disabled={!frameCoord}
+              />
+              <span className="text-2xl">｝</span>
+            </p>
+            {frameCoord && (
               <FaTimesCircle
                 onClick={() => setFrameCoord(undefined)}
                 className="w-3 h-3 cursor-pointer hover:opacity-50"
               />
-            </span>
-          ) : (
-            <p />
-          )}
+            )}
+          </span>
         </section>
 
         <section className="flex flex-col items-start justify-center space-y-3">
@@ -170,35 +172,35 @@ const Main = () => {
             >
               Select next button...
             </button>
-            {nextCoord ? (
-              <span className="flex items-center justify-center space-x-2 opacity-70">
-                <p>
-                  Point: [
-                  <input
-                    className="w-16"
-                    value={(nextCoord.x0 + nextCoord.x1) / 2}
-                    onChange={(e) =>
-                      setNextCoordValue('x', parseInt(e.target.value, 10))
-                    }
-                  />
-                  ,{' '}
-                  <input
-                    className="w-16"
-                    value={(nextCoord.y0 + nextCoord.y1) / 2}
-                    onChange={(e) =>
-                      setNextCoordValue('y', parseInt(e.target.value, 10))
-                    }
-                  />
-                  ]
-                </p>
+            <span className="flex items-center justify-center space-x-2 opacity-70">
+              <p className="flex items-center justify-center space-x-2">
+                Point:
+                <span className="text-2xl">｛</span>
+                <input
+                  className="w-16 px-1 disabled:bg-gray-50"
+                  value={nextCoord ? (nextCoord.x0 + nextCoord.x1) / 2 : 0}
+                  onChange={(e) =>
+                    setNextCoordValue('x', parseInt(e.target.value, 10))
+                  }
+                  disabled={!nextCoord}
+                />
+                <input
+                  className="w-16 px-1 disabled:bg-gray-50"
+                  value={nextCoord ? (nextCoord.y0 + nextCoord.y1) / 2 : 0}
+                  onChange={(e) =>
+                    setNextCoordValue('y', parseInt(e.target.value, 10))
+                  }
+                  disabled={!nextCoord}
+                />
+                <span className="text-2xl">｝</span>
+              </p>
+              {nextCoord && (
                 <FaTimesCircle
                   onClick={() => setNextCoord(undefined)}
                   className="w-3 h-3 cursor-pointer hover:opacity-50"
                 />
-              </span>
-            ) : (
-              <p />
-            )}
+              )}
+            </span>
           </section>
 
           <section

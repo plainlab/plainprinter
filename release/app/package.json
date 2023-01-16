@@ -1,13 +1,13 @@
 {
   "name": "plainprinter",
   "productName": "Screen Printer",
-  "version": "1.0.0",
-  "description": "PDF screen printer",
+  "version": "1.0.2",
+  "description": "Auto PDF screen printer",
   "main": "./dist/main/main.js",
   "author": {
-    "name": "PlainLab",
-    "email": "plain@manhtai.com",
-    "url": "https://github.com/plainlab"
+    "name": "Tai Vo",
+    "email": "screenprinter@manhtai.com",
+    "url": "https://screenprinter.manhtai.com"
   },
   "scripts": {
     "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
@@ -18,7 +18,7 @@
   "dependencies": {
     "pdfkit": "^0.12.3",
     "screenshot-desktop": "https://github.com/bencevans/screenshot-desktop.git#f43ace973fe22a67965f738ab54fc8d3a16bb3d3",
-    "@jitsi/robotjs": "^0.6.0"
+    "@jitsi/robotjs": "^0.6.11"
   },
   "devDependencies": {}
 }

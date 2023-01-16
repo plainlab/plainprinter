@@ -5,7 +5,7 @@ module.exports = {
   },
   variants: {
     extend: {
-      backgroundColor: ['active'],
+      backgroundColor: ['active', 'disabled'],
       textColor: ['active'],
       opacity: ['disabled'],
       outline: ['focus', 'active'],
