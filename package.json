@@ -1,5 +1,5 @@
 {
-  "description": "Plain screen printer",
+  "description": "PDF screen printer",
   "keywords": [
     "pdf",
     "screen printer"
@@ -180,7 +180,7 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "PlainPrinter",
+    "productName": "Screen Printer",
     "appId": "com.plainprinter",
     "asar": true,
     "asarUnpack": [
@@ -195,7 +195,10 @@
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
       "target": {
-        "target": "default",
+        "target": [
+          "dmg",
+          "mas"
+        ],
         "arch": [
           "arm64",
           "x64"
@@ -206,6 +209,12 @@
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
       "gatekeeperAssess": false
+    },
+    "mas": {
+      "entitlements": "assets/entitlements.mas.plist",
+      "entitlementsInherit": "assets/entitlements.mas.inherit.plist",
+      "entitlementsLoginHelper": "assets/entitlements.mas.inherit.plist",
+      "hardenedRuntime": false
     },
     "dmg": {
       "contents": [

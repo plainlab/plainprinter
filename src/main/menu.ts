@@ -54,15 +54,15 @@ export default class MenuBuilder {
 
   buildDarwinTemplate(): MenuItemConstructorOptions[] {
     const subMenuAbout: DarwinMenuItemConstructorOptions = {
-      label: 'PlainPrinter',
+      label: 'Help',
       submenu: [
         {
-          label: 'About PlainPrinter',
+          label: 'About',
           selector: 'orderFrontStandardAboutPanel:',
         },
         { type: 'separator' },
         {
-          label: 'Hide PlainPrinter',
+          label: 'Hide',
           accelerator: 'Command+H',
           selector: 'hide:',
         },
@@ -79,22 +79,6 @@ export default class MenuBuilder {
           click: () => {
             app.quit();
           },
-        },
-      ],
-    };
-    const subMenuEdit: DarwinMenuItemConstructorOptions = {
-      label: 'Edit',
-      submenu: [
-        { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' },
-        {
-          label: 'Select All',
-          accelerator: 'Command+A',
-          selector: 'selectAll:',
         },
       ],
     };
@@ -124,18 +108,6 @@ export default class MenuBuilder {
         },
       ],
     };
-    const subMenuViewProd: MenuItemConstructorOptions = {
-      label: 'View',
-      submenu: [
-        {
-          label: 'Toggle Full Screen',
-          accelerator: 'Ctrl+Command+F',
-          click: () => {
-            this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
-          },
-        },
-      ],
-    };
     const subMenuWindow: DarwinMenuItemConstructorOptions = {
       label: 'Window',
       submenu: [
@@ -153,27 +125,32 @@ export default class MenuBuilder {
       label: 'Help',
       submenu: [
         {
-          label: 'PlainLab home page',
+          label: 'Privacy',
           click() {
-            shell.openExternal('https://plainlab.github.io');
+            shell.openExternal(
+              'https://screenprinter.manhtai.com/privacy.html'
+            );
           },
         },
         {
-          label: 'PlainPrinter repo',
+          label: 'Support',
           click() {
-            shell.openExternal('https://github.com/plainlab/plainprinter');
+            shell.openExternal(
+              'https://screenprinter.manhtai.com/support.html'
+            );
           },
         },
       ],
     };
 
-    const subMenuView =
+    if (
       process.env.NODE_ENV === 'development' ||
       process.env.DEBUG_PROD === 'true'
-        ? subMenuViewDev
-        : subMenuViewProd;
+    ) {
+      return [subMenuAbout, subMenuViewDev, subMenuWindow, subMenuHelp];
+    }
 
-    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp];
+    return [subMenuAbout, subMenuWindow, subMenuHelp];
   }
 
   buildDefaultTemplate() {
@@ -240,15 +217,19 @@ export default class MenuBuilder {
         label: 'Help',
         submenu: [
           {
-            label: 'Home Page',
+            label: 'Privacy',
             click() {
-              shell.openExternal('https://plainlab.github.io');
+              shell.openExternal(
+                'https://screenprinter.manhtai.com/privacy.html'
+              );
             },
           },
           {
-            label: 'GitHub',
+            label: 'Support',
             click() {
-              shell.openExternal('https://github.com/plainlab/plainprinter');
+              shell.openExternal(
+                'https://screenprinter.manhtai.com/support.html'
+              );
             },
           },
         ],
