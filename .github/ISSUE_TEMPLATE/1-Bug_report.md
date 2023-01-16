@@ -52,6 +52,6 @@ labels: 'bug'
 <!--- Include as many relevant details about the environment you experienced the bug in -->
 
 - Node version:
-- PlainPrinter version or branch:
+- Screen Printer version or branch:
 - Operating System and version:
 - Link to your project:

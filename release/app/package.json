@@ -1,8 +1,8 @@
 {
   "name": "plainprinter",
-  "productName": "PlainPrinter",
-  "version": "0.2.3",
-  "description": "Plain screen printer",
+  "productName": "Screen Printer",
+  "version": "1.0.0",
+  "description": "PDF screen printer",
   "main": "./dist/main/main.js",
   "author": {
     "name": "PlainLab",
