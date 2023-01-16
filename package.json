@@ -26,6 +26,7 @@
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
+    "package:mas": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --mac mas --x64 --config.afterSign=.erb/scripts/doNothing.js --publish never",
     "prepare": "husky install",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
@@ -194,20 +195,26 @@
     ],
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
-      "target": {
-        "target": [
-          "dmg",
-          "mas"
-        ],
-        "arch": [
-          "arm64",
-          "x64"
-        ]
-      },
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "mas",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
+      "provisioningProfile": "assets/embedded.provisionprofile",
       "gatekeeperAssess": false
     },
     "mas": {
