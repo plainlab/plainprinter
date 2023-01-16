@@ -182,7 +182,7 @@
   },
   "build": {
     "productName": "Screen Printer",
-    "appId": "com.plainprinter",
+    "appId": "com.manhtai.screenprinter",
     "asar": true,
     "asarUnpack": [
       "node_modules/screenshot-desktop/lib/win32",
