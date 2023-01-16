@@ -1,7 +1,7 @@
 {
   "name": "plainprinter",
   "productName": "Screen Printer",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "Auto PDF screen printer",
   "main": "./dist/main/main.js",
   "author": {
