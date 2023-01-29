@@ -30,4 +30,4 @@ https://github.com/manhtai/vitalsource-printer
 
 ---
 
-&copy; 2022 PlainLab
+&copy; 2023 Tai Vo
