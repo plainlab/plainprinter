@@ -304,12 +304,8 @@ ipcMain.handle(
 
         // Click
         if (nextCoord) {
-          const nextX = Math.floor(
-            ((nextCoord.x0 + nextCoord.x1) / 2) * factor
-          );
-          const nextY = Math.floor(
-            ((nextCoord.y0 + nextCoord.y1) / 2) * factor
-          );
+          const nextX = Math.floor((nextCoord.x0 + nextCoord.x1) / 2);
+          const nextY = Math.floor((nextCoord.y0 + nextCoord.y1) / 2);
           robot.moveMouse(nextX, nextY);
           robot.mouseClick();
         }
