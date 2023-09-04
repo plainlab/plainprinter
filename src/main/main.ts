@@ -18,6 +18,7 @@ import {
   nativeImage,
   screen,
   FileFilter,
+  Rectangle,
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -277,6 +278,11 @@ ipcMain.handle(
     width *= factor;
     height *= factor;
 
+    x = Math.floor(x);
+    y = Math.floor(y);
+    width = Math.floor(width);
+    height = Math.floor(height);
+
     const doc = new PDFDocument({ autoFirstPage: false });
     const pdfPath = path.join(app.getPath('temp'), 'preview.pdf');
     doc.pipe(fs.createWriteStream(pdfPath));
@@ -287,7 +293,9 @@ ipcMain.handle(
         // eslint-disable-next-line no-await-in-loop
         const buff: Buffer = await screenshot({ format: 'png' });
         const image = nativeImage.createFromBuffer(buff);
-        const png = image.crop({ x, y, height, width }).toPNG();
+        const rect = { x, y, height, width };
+        const croppedImage = image.crop(rect as Rectangle);
+        const png = croppedImage.toPNG();
 
         // Create pdf
         doc.addPage({ size: [width, height] });
@@ -296,8 +304,12 @@ ipcMain.handle(
 
         // Click
         if (nextCoord) {
-          const nextX = (nextCoord.x0 + nextCoord.x1) / 2;
-          const nextY = (nextCoord.y0 + nextCoord.y1) / 2;
+          const nextX = Math.floor(
+            ((nextCoord.x0 + nextCoord.x1) / 2) * factor
+          );
+          const nextY = Math.floor(
+            ((nextCoord.y0 + nextCoord.y1) / 2) * factor
+          );
           robot.moveMouse(nextX, nextY);
           robot.mouseClick();
         }
@@ -309,7 +321,7 @@ ipcMain.handle(
         });
 
         // Sleep
-        // eslint-disable-next-line no-await-in-loop
+        // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
         await new Promise((resolve) => setTimeout(resolve, 1000 * delay));
 
         if (stopPrinting) {
