@@ -1,7 +1,7 @@
 {
   "name": "plainprinter",
   "productName": "Screen Printer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Auto PDF screen printer",
   "main": "./dist/main/main.js",
   "author": {
@@ -17,8 +17,8 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "pdfkit": "^0.12.3",
-    "screenshot-desktop": "https://github.com/bencevans/screenshot-desktop.git#f43ace973fe22a67965f738ab54fc8d3a16bb3d3",
-    "@jitsi/robotjs": "^0.6.11"
+    "screenshot-desktop": "^1.14.1",
+    "@jitsi/robotjs": "^0.6.13"
   },
   "devDependencies": {}
 }
