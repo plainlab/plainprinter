@@ -26,7 +26,7 @@ https://github.com/manhtai/vitalsource-printer
 
 ## Buy me a coffee
 
-[PayPal](https://paypal.me/vomanhtai)
+[Gumroad](https://gum.co/plainprinter)
 
 ---
 
