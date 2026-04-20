@@ -28,7 +28,7 @@ https://github.com/manhtai/vitalsource-printer
 
 [Gumroad](https://gum.co/plainprinter)
 
-### Or check out our PDF mail merge service
+### Or check out our PDF forms filling / mail merge service
 
 - Desktop app: https://pdfmailmerger.github.io
 - Web app: https://mergram.com
